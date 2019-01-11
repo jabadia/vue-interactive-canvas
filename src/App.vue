@@ -29,7 +29,7 @@
         data() {
             return {
                 selectedRenderer: 'svg',
-                useRounding: false,
+                useRounding: true,
                 tick: 0,
                 timerId: null,
                 rectangles: [
