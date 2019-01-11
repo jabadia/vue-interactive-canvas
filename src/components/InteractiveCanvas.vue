@@ -49,10 +49,14 @@
                     : n => n;
 
                 this.rectangles.forEach(rect => {
+                    const isSelected = rect.selected;
+                    const isHovered = this.isInside(this.lastPos, rect);
+
+                    ctx.globalAlpha = isHovered ? 1 : 0.5;
                     ctx.fillStyle = rect.color;
-                    ctx.globalAlpha = this.isInside(this.lastPos, rect) ? 1 : 0.5;
                     ctx.fillRect(round(rect.x), round(rect.y), round(rect.width), round(rect.height));
-                    if( rect.selected ) {
+
+                    if( isSelected ) {
                         ctx.strokeStyle = 'black';
                         ctx.setLineDash([5,5]);
                         ctx.lineWidth = 5;
