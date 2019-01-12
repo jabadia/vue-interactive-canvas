@@ -33,9 +33,6 @@
                 tick: 0,
                 timerId: null,
                 rectangles: [
-                    {id: 1, color: 'red', x: 100, y: 100, width: 200, height: 50, selected: false},
-                    {id: 2, color: 'blue', x: 100, y: 300, width: 200, height: 50, selected: false},
-                    {id: 3, color: 'green', x: 200, y: 400, width: 50, height: 150, selected: false},
                 ],  // shared state... not very clean, but it helps here
             };
         },
@@ -55,6 +52,7 @@
             },
             rectSelected(rect) {
                 console.log(`received event, selected rect.id=${rect.id}`);
+                console.assert(this.rectangles.filter(r2 => r2 === rect).length === 1);
                 rect.selected = !rect.selected;
             },
             rectEntered(rect) {
@@ -63,7 +61,20 @@
         },
         mounted() {
             console.log('mounted()');
-            this.timerId = setInterval(this.moveRectangles.bind(this), 2000);
+            const rectCount = 2000;
+            const colors = ['red','blue','green','purple','yellow','pink','gray'];
+            for(let i=0; i<rectCount; i++) {
+                this.rectangles.push({
+                    id: i,
+                    color: colors[i % colors.length],
+                    x: Math.random() * 750,
+                    y: Math.random() * 550,
+                    width: 20 + Math.random() * 50,
+                    height: 20 + Math.random() * 50,
+                    selected: false,
+                });
+            }
+            this.timerId = setInterval(this.moveRectangles.bind(this), 5000);
         },
         beforeDestroy() {
             console.log('beforeDestroy()');
