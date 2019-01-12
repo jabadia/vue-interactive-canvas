@@ -28,7 +28,7 @@
         name: 'app',
         data() {
             return {
-                selectedRenderer: 'svg',
+                selectedRenderer: 'canvas',
                 useRounding: true,
                 tick: 0,
                 timerId: null,
