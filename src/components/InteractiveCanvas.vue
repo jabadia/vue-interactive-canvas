@@ -20,7 +20,7 @@
             return {
                 lastPos: {},
                 animatedRectangles: [],
-                duration: 500,
+                duration: 1000,
                 frameHandler: null,
                 movingRects: 0,
             };
@@ -28,13 +28,14 @@
         watch: {
             rectangles: {
                 handler: function () {
+                    console.log('watch-rectangles-handler');
                     if (this.rectangles.length !== this.animatedRectangles.length) {
                         this.animatedRectangles = JSON.parse(JSON.stringify(this.rectangles)); // quick & dirty deep copy
                     }
                     this.animatedRectangles.forEach((start, i) => {
                         start.selected = this.rectangles[i].selected;
-                        const {x,y,width,height} = start;
-                        this.tween({x,y,width,height}, this.rectangles[i], start);
+                        const {x, y, width, height} = start;
+                        this.tween({x, y, width, height}, this.rectangles[i], start);
                     });
                 },
                 deep: true,
@@ -92,7 +93,7 @@
                     .start();
             },
             render() {
-                console.log('render canvas');
+                // console.log('render canvas');
                 console.assert(this.$refs.theCanvas);
 
                 const ctx = this.$refs.theCanvas.getContext('2d');
@@ -131,14 +132,14 @@
                 console.log('clicked on canvas', x, y);
                 const clicked = this.rectangles.filter(rect => this.isInside({x, y}, rect));
                 if (clicked.length) {
-                    this.$emit('rect-selected', clicked[0]);
+                    this.$emit('rect-selected', clicked[clicked.length - 1]);
                 }
             },
             canvasMouseMove(ev) {
                 const canvasRect = this.canvasRect;
                 const x = ev.clientX - canvasRect.x;
                 const y = ev.clientY - canvasRect.y;
-                console.log('mousemove on canvas', x, y);
+                // console.log('mousemove on canvas', x, y);
                 this.lastPos = {x, y};
                 this.render();
             },
